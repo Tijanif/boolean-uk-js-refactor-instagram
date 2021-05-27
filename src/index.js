@@ -60,6 +60,7 @@ const renderUserCard = (state) => {
     wrapperEl.append(userCardEl);
   }
 };
+// Render post section
 const renderPostSection = () => {
   const sectionEl = document.createElement('section');
   sectionEl.className = 'create-post-section';
@@ -112,12 +113,85 @@ const renderPostSection = () => {
 
   return sectionEl;
 };
+
+//  Render feed section
+const renderFeedSection = () => {
+  const feedSectionEl = document.createElement('section');
+  feedSectionEl.className = 'feed';
+
+  const ulEl = document.createElement('ul');
+  ulEl.className = 'stack';
+
+  const liEl = document.createElement('li');
+  liEl.setAttribute('class', 'post');
+
+  const postImgEl = document.createElement('div');
+  postImgEl.setAttribute('class', 'post--image');
+
+  const imgEl = document.createElement('img');
+  // imgEl.setAttribute('src', post.image.src);
+  imgEl.setAttribute('alt', 'Salvador Dali');
+  imgEl.src =
+    'https://images.unsplash.com/photo-1616745309504-0cb79e9ae590?ixid=MXwxMjA3fDB8MHx0b3BpYy1mZWVkfDI0fDZzTVZqVExTa2VRfHxlbnwwfHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=60';
+
+  postImgEl.append(imgEl);
+
+  // POST CONTENT SECTION
+  const postContentEl = document.createElement('div');
+  postContentEl.setAttribute('class', 'post--content');
+
+  const h2El = document.createElement('h2');
+  // h2El.innerText = post.title;
+
+  const pEl = document.createElement('p');
+  // pEl.innerText = post.content;
+
+  postContentEl.append(h2El, pEl);
+
+  // POST COMMENTS SECTION
+  const postCommentsEl = document.createElement('div');
+  postCommentsEl.setAttribute('class', 'post--comments');
+
+  const h3El = document.createElement('h3');
+  h3El.innerText = 'Comments';
+
+  postCommentsEl.append(h3El);
+
+  const formEl = document.createElement('form');
+  formEl.setAttribute('id', 'create-comment-form');
+  formEl.setAttribute('autocomplete', 'off');
+
+  const commentLabelEl = document.createElement('label');
+  commentLabelEl.setAttribute('for', 'comment');
+  commentLabelEl.innerText = 'Add comment';
+
+  const commentInputEl = document.createElement('input');
+  commentInputEl.setAttribute('id', 'comment');
+  commentInputEl.setAttribute('name', 'comment');
+  commentInputEl.setAttribute('type', 'text');
+
+  const submitBtn = document.createElement('button');
+  submitBtn.setAttribute('type', 'submit');
+  submitBtn.innerText = 'Comment';
+
+  formEl.append(commentLabelEl, commentInputEl, submitBtn);
+
+  liEl.append(postImgEl, postContentEl, postCommentsEl, formEl);
+  ulEl.append(liEl);
+  feedSectionEl.append(ulEl);
+
+  return feedSectionEl;
+};
+
+console.log(renderFeedSection());
+// Render main section
 const renderMainSection = () => {
   const mainEl = document.createElement('main');
   mainEl.className = 'wrapper';
 
+  let feedSection = renderFeedSection();
   let postSection = renderPostSection();
-  mainEl.append(postSection);
+  mainEl.append(postSection, feedSection);
   return mainEl;
 };
 rootEl.append(renderMainSection());
