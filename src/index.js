@@ -9,21 +9,6 @@ const rootEl = document.querySelector('#root');
 
 const headerEl = document.createElement('header');
 headerEl.className = 'main-header';
-const wrapperEl = document.createElement('div');
-wrapperEl.className = 'wrapper';
-
-const userCard = document.createElement('div');
-userCard.className = 'chip';
-
-const userAvatar = document.createElement('div');
-userAvatar.className = 'avater-small';
-
-const userImg = document.createElement('img');
-// userImg.src = usersFromDb[0].avatar;
-// userImg.setAttribute('alt', usersFromDb[0].username);
-
-const userName = document.createElement('span');
-// userName.innerText = usersFromDb[0].username;
 
 {
   /* <header class='main-header'>
@@ -58,26 +43,63 @@ const userName = document.createElement('span');
   </div>
 </header>; */
 }
-// appends
-headerEl.append(wrapperEl);
 
-wrapperEl.append(userCard);
-
-userCard.append(userAvatar, userName);
-
-userAvatar.append(userImg);
-
-rootEl.append(headerEl);
-
-// console.log(rootEl);
-function getUsersFromDb() {
+const getUsersFromDb = () => {
   return fetch('http://localhost:3000/users').then((response) =>
     response.json()
   );
-}
+};
 getUsersFromDb().then(function (data) {
-  state = {
-    ...state,
-    users: [...data],
-  };
+  // state = {
+  //   ...state,
+  //   users: [...data],
+  // };
+  setState(data);
 });
+
+function setState(newState) {
+  state = { ...state, users: [...newState] };
+  renderUserCard(state);
+}
+const createUserCard = (user) => {
+  const wrapperEl = document.createElement('div');
+  wrapperEl.className = 'wrapper';
+
+  const userCard = document.createElement('div');
+  userCard.className = 'chip';
+
+  const userAvatar = document.createElement('div');
+  userAvatar.className = 'avater-small';
+
+  const userImg = document.createElement('img');
+  userImg.src = user.avatar;
+  userImg.setAttribute('alt', user.username);
+
+  const userName = document.createElement('span');
+  userName.innerText = user.username;
+
+  wrapperEl.append(userCard);
+
+  userCard.append(userAvatar, userName);
+
+  userAvatar.append(userImg);
+  return wrapperEl;
+};
+
+const renderUserCard = (state) => {
+  for (const user of state.users) {
+    let userCardEl = createUserCard(user);
+    headerEl.append(userCardEl);
+  }
+};
+
+rootEl.append(headerEl);
+
+// const render = () => {
+//   rootEl.innerHTML = '';
+
+// renderUserCard(state);
+
+// };
+
+// render();
