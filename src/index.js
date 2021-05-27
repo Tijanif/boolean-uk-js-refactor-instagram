@@ -5,11 +5,29 @@ let state = {
 // ROOT
 const rootEl = document.querySelector('#root');
 
+const getUsersFromDb = () => {
+  return fetch('http://localhost:3000/users').then((response) =>
+    response.json()
+  );
+};
+getUsersFromDb().then(function (data) {
+  // state = {
+  //   ...state,
+  //   users: [...data],
+  // };
+  setState(data);
+});
+
+function setState(newState) {
+  state = { ...state, users: [...newState] };
+  render();
+}
 // HEADER SECTION
 
 const headerEl = document.createElement('header');
 headerEl.className = 'main-header';
-
+const wrapperEl = document.createElement('div');
+wrapperEl.classList = 'wrapper';
 {
   /* <header class='main-header'>
   <div class='wrapper'>
@@ -44,32 +62,12 @@ headerEl.className = 'main-header';
 </header>; */
 }
 
-const getUsersFromDb = () => {
-  return fetch('http://localhost:3000/users').then((response) =>
-    response.json()
-  );
-};
-getUsersFromDb().then(function (data) {
-  // state = {
-  //   ...state,
-  //   users: [...data],
-  // };
-  setState(data);
-});
-
-function setState(newState) {
-  state = { ...state, users: [...newState] };
-  renderUserCard(state);
-}
 const createUserCard = (user) => {
-  const wrapperEl = document.createElement('div');
-  wrapperEl.className = 'wrapper';
-
   const userCard = document.createElement('div');
   userCard.className = 'chip';
 
   const userAvatar = document.createElement('div');
-  userAvatar.className = 'avater-small';
+  userAvatar.className = 'avatar-small';
 
   const userImg = document.createElement('img');
   userImg.src = user.avatar;
@@ -78,28 +76,25 @@ const createUserCard = (user) => {
   const userName = document.createElement('span');
   userName.innerText = user.username;
 
-  wrapperEl.append(userCard);
-
   userCard.append(userAvatar, userName);
 
   userAvatar.append(userImg);
-  return wrapperEl;
+  return userCard;
 };
 
 const renderUserCard = (state) => {
   for (const user of state.users) {
     let userCardEl = createUserCard(user);
-    headerEl.append(userCardEl);
+    wrapperEl.append(userCardEl);
   }
 };
 
+headerEl.append(wrapperEl);
+
 rootEl.append(headerEl);
 
-// const render = () => {
-//   rootEl.innerHTML = '';
+const render = () => {
+  renderUserCard(state);
+};
 
-// renderUserCard(state);
-
-// };
-
-// render();
+render();
