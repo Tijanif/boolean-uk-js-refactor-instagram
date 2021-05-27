@@ -2,12 +2,6 @@ let state = {
   users: [],
 };
 
-// const getUsers = () => {
-// let users = [];
-
-//   return users;
-// };
-
 // ROOT
 const rootEl = document.querySelector('#root');
 
@@ -80,25 +74,10 @@ function getUsersFromDb() {
   return fetch('http://localhost:3000/users').then((response) =>
     response.json()
   );
-  // .then((data) => {
-
-  // for (const user of data) {
-  //   console.log(user);
-  //   userImg.src = user.avatar;
-  //   userImg.setAttribute('alt', user.username);
-  //   userName.innerText = user.username;
-
-  //   console.log(userImg);
-  // }
-  // });
 }
 getUsersFromDb().then(function (data) {
-  console.log(state);
-
   state = {
     ...state,
     users: [...data],
   };
-  console.log(state);
 });
-console.log(state);
