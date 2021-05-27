@@ -61,6 +61,13 @@ const renderUserCard = (state) => {
   }
 };
 
+const renderMainSection = () => {
+  const mainEl = document.createElement('main');
+  mainEl.className = 'wrapper';
+  return mainEl;
+};
+rootEl.append(renderMainSection());
+
 const render = () => {
   renderUserCard(state);
 };
