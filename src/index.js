@@ -60,10 +60,64 @@ const renderUserCard = (state) => {
     wrapperEl.append(userCardEl);
   }
 };
+const renderPostSection = () => {
+  const sectionEl = document.createElement('section');
+  sectionEl.className = 'create-post-section';
 
+  const formEl = document.createElement('form');
+  formEl.setAttribute('id', 'create-post-form', 'autocomplete', 'off');
+
+  const h2El = document.createElement('h2');
+  h2El.innerText = 'Create a post';
+
+  const imageLabel = document.createElement('label');
+  imageLabel.setAttribute('for', 'image');
+  imageLabel.innerText = 'Image';
+
+  const imageInput = document.createElement('input');
+  imageInput.setAttribute('id', 'image', 'name', 'image');
+
+  const titleLabel = document.createElement('label');
+  titleLabel.setAttribute('for', 'title');
+  titleLabel.innerText = 'Title';
+
+  const titleInput = document.createElement('input');
+  titleInput.setAttribute('id', 'title', 'name', 'title');
+
+  const textareaEl = document.createElement('textarea');
+  textareaEl.setAttribute('id', 'content', 'name', 'content');
+  textareaEl.setAttribute('row', '2', 'columns', '30');
+
+  const divBtns = document.createElement('div');
+  divBtns.className = 'action-btns';
+  const buttonPreview = document.createElement('button');
+  buttonPreview.setAttribute('id', 'preview-btn', 'type', 'button');
+  buttonPreview.innerText = 'Preview';
+  const submitBtn = document.createElement('button');
+  submitBtn.setAttribute('type', 'submit');
+  submitBtn.innerText = 'Post';
+
+  divBtns.append(buttonPreview, submitBtn);
+  formEl.append(
+    h2El,
+    imageLabel,
+    imageInput,
+    titleLabel,
+    titleInput,
+    textareaEl,
+    divBtns
+  );
+
+  sectionEl.append(formEl);
+
+  return sectionEl;
+};
 const renderMainSection = () => {
   const mainEl = document.createElement('main');
   mainEl.className = 'wrapper';
+
+  let postSection = renderPostSection();
+  mainEl.append(postSection);
   return mainEl;
 };
 rootEl.append(renderMainSection());
